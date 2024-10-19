@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSCode Clone</title>
+    <style>
+        #editor { width: 800px; height: 600px; border: 1px solid #ccc; }
+    </style>
+    <!-- Load Monaco Editor from CDN -->
+    <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
+</head>
+<body>
+    <div id="editor"></div>
+    <script>
+        require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
+        require(['vs/editor/editor.main'], function() {
+            // Create a basic editor with JavaScript language support
+            const editor = monaco.editor.create(document.getElementById('editor'), {
+                value: 'function hello() {\n\tconsole.log("Hello, world!");\n}',
+                language: 'javascript'
+            });
+
+            // Add a simple completion item provider
+
+
+        });
+    </script>
+</body>
+</html>
