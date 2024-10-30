@@ -34,7 +34,7 @@ function connectPeer() {
         console.log(peerId+' connected');
     });
     conn.on('data', (data) => {
-        document.getElementById('output').innerText = data;
+        console.log(data)//document.getElementById('output').innerText = data;
     });
 }
 
