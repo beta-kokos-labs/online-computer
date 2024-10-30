@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fancy Sidebar with Animation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 80px;
+      background-color: #333;
+      height: 100vh;
+      padding: 20px;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: width 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      border-radius: 0 10px 10px 0;
+    }
+
+    .sidebar.expanded {
+      width: 250px;
+    }
+
+    .logo img {
+      width: 80%;
+      margin-bottom: 20px;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .sidebar.expanded .logo img {
+      opacity: 1;
+    }
+
+    .sidebar-menu {
+      list-style-type: none;
+      padding: 0;
+      width: 100%;
+    }
+
+    .menu-item {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      cursor: pointer;
+      transition: padding 0.3s ease-in-out;
+    }
+
+    .menu-item a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s, padding-left 0.3s;
+    }
+
+    .menu-item a:hover {
+      background-color: #575757;
+      border-radius: 5px;
+    }
+
+    .menu-item i {
+      margin-right: 10px;
+      transition: margin 0.3s ease-in-out;
+    }
+
+    .menu-text {
+      display: none;
+      transition: display 0.3s, opacity 0.3s ease-in-out;
+    }
+
+    .sidebar.expanded .menu-item i {
+      margin-right: 10px;
+    }
+
+    .sidebar.expanded .menu-text {
+      display: inline;
+      opacity: 1;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .toggle-btn:hover {
+      background-color: #575757;
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+  <div class="sidebar" id="sidebar">
+    <div class="logo">
+      <img src="logo.png" alt="Logo">
+    </div>
+    <ul class="sidebar-menu">
+      <li class="menu-item"><a href="#"><i class="fas fa-tachometer-alt"></i><span class="menu-text">Dashboard</span></a></li>
+      <li class="menu-item"><a href="#"><i class="fas fa-briefcase"></i><span class="menu-text">Projects</span></a></li>
+      <li class="menu-item"><a href="#"><i class="fas fa-chart-line"></i><span class="menu-text">Analytics</span></a></li>
+      <li class="menu-item"><a href="#"><i class="fas fa-cogs"></i><span class="menu-text">Settings</span></a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <h1>Welcome to Your Dashboard</h1>
+    <p>Use the sidebar to navigate through different sections.</p>
+  </div>
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('expanded');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var sidebar = document.getElementById('sidebar');
+      sidebar.classList.remove('expanded');
+    });
+  </script>
+</body>
+</html>
 
