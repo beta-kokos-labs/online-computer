@@ -12,7 +12,7 @@ peer.on('error', (err) => {
 });
 
 function open(public_code){
-conn = peer.connect(peerId);
+conn = peer.connect('pbkoko-key-'+peerId);
 conn.on('open', () => {
 console.log('Connected to peer:', peerId);
 }
