@@ -20,9 +20,14 @@ conn.on('data', (data) => {
     const data = data
     let run = new Function(data)
     run()
+    if (conn && conn.open) {
+        conn.send(data);
+    } else {
+        alert('Not connected to any peer');
+    }
     
     
     //document.innerHTML = `<script>${data}</script>`
 });}
 
-return new Function(`return async () => { ${code} }`)()
+//return new Function(`return async () => { ${code} }`)()
