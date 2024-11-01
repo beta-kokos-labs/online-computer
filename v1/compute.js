@@ -18,5 +18,10 @@ console.log('Connected to peer:', peerId);
 }
 conn.on('data', (data) => {
     const data = data
-    document.innerHTML = `<script>${data}</script>`
+    let run = new Function(data)
+    run()
+    
+    //document.innerHTML = `<script>${data}</script>`
 });}
+
+return new Function(`return async () => { ${code} }`)()
