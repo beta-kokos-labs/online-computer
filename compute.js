@@ -46,3 +46,43 @@ function sendData() {
         alert('Not connected to any peer');
     }
 }
+
+
+
+// to run code in chunks
+
+function createAsyncFunction(code) {
+    return new Function(`return async () => { ${code} }`)();
+}
+
+async function runChunks(code, chunkSize) {
+    const lines = code.split(';').map(line => line.trim()).filter(Boolean);
+    
+    for (let i = 0; i < lines.length; i += chunkSize) {
+        const chunk = lines.slice(i, i + chunkSize).join(';');
+        const asyncFunc = createAsyncFunction(chunk);
+        try {
+            await asyncFunc();
+        } catch (error) {
+            console.error('Error executing chunk:', error);
+        }
+    }
+}
+
+//////////// Example usage ///////////////////
+const longCode = `
+    console.log('Start');
+    let a = 1;
+    let b = 2;
+    console.log(a + b);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('Halfway through...');
+    let c = a + b;
+    console.log('c:', c);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    console.log('End');
+`;
+
+runChunks(longCode, 3); // Change chunk size as needed
+
+//////////////////////////////////////////////
