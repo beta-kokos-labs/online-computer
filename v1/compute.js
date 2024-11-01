@@ -21,7 +21,7 @@ conn.on('data', (data) => {
     let run = new Function(data)
     run()
     if (conn && conn.open) {
-        conn.send(data);
+        conn.send('complete')//data);
     } else {
         alert('Not connected to any peer');
     }
