@@ -7,6 +7,7 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -23,6 +24,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin: 5px;
         }
 
         .btn:hover {
@@ -32,10 +34,15 @@
         .btn:active {
             background-color: #2A5DBD; /* Even darker shade for active */
         }
+
+        #verifyEmailBtn {
+            display: none; /* Initially hidden */
+        }
     </style>
 </head>
 <body>
     <button id="googleSignInBtn" class="btn">Sign in with Google</button>
+    <button id="verifyEmailBtn" class="btn">Send Verification Email</button>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -61,23 +68,34 @@ const firebaseConfig = {
         document.getElementById('googleSignInBtn').addEventListener('click', async () => {
             try {
                 const result = await signInWithPopup(auth, provider);
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
                 const user = result.user;
 
-                // Send email verification if the email is not verified
+                // Check if the email is verified
                 if (!user.emailVerified) {
-                    await sendEmailVerification(user);
-                    console.log('Verification email sent. Please check your inbox.');
+                    document.getElementById('verifyEmailBtn').style.display = 'block'; // Show the verification button
+                    console.log('User is not verified. Click "Send Verification Email" to resend the verification email.');
                 } else {
                     console.log('User is already verified.');
                 }
             } catch (error) {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                const email = error.customData?.email;
-                const credential = GoogleAuthProvider.credentialFromError(error);
                 console.error(`Error: ${errorMessage} (Code: ${errorCode})`);
+            }
+        });
+
+        // Email verification button event listener
+        document.getElementById('verifyEmailBtn').addEventListener('click', async () => {
+            const user = auth.currentUser; // Get the current user
+            if (user) {
+                try {
+                    await sendEmailVerification(user);
+                    console.log('Verification email sent. Please check your inbox.');
+                } catch (error) {
+                    console.error(`Error sending verification email: ${error.message}`);
+                }
+            } else {
+                console.log('No user is signed in.');
             }
         });
     </script>
