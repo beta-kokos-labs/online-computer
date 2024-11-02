@@ -1,54 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
+  <title>Google OAuth Demo</title>
+      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Sign-In</title>
+    <title>Sign Up with Google</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
         }
-
-        .btn {
+        .google-signup-btn {
+            display: flex;
+            align-items: center;
             padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #4285F4; /* Google Blue */
+            background-color: #e3eaf5;
+            color: rgb(65, 65, 65);
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 5px;
+            font-size: 16px;
         }
-
-        .btn:hover {
-            background-color: #357AE8; /* Darker shade for hover */
-        }
-
-        .btn:active {
-            background-color: #2A5DBD; /* Even darker shade for active */
-        }
-
-        #verifyEmailBtn {
-            display: none; /* Initially hidden */
+        .google-signup-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
         }
     </style>
 </head>
+
+    <button class="google-signup-btn" id='google-sign-up'>
+        <img class="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo">
+        Sign up with Google
+    </button>
+    <hr>
+    <input type='email'>
+  
 <body>
-    <button id="googleSignInBtn" class="btn">Sign in with Google</button>
-    <button id="verifyEmailBtn" class="btn">Send Verification Email</button>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-        // Your web app's Firebase configuration
+    // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyA8xVT6HX2OWxeJnhyfi0W3ob-Vf6DT7RE",
   authDomain: "super-computer-online.firebaseapp.com",
@@ -59,45 +58,33 @@ const firebaseConfig = {
   measurementId: "G-XZZT89386C"
 };
 
-        // Initialize Firebase and the Google Auth Provider
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
+    // Initialize Firebase and the Google Auth Provider
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    document.getElementById('google-sign-up').onclick = function(){
+      signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        alert('user '+result.user.photoURL+' | '+result.user.email)
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });}
 
-        // Sign-in button event listener
-        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-
-                // Check if the email is verified
-                if (!user.emailVerified) {
-                    document.getElementById('verifyEmailBtn').style.display = 'block'; // Show the verification button
-                    console.log('User is not verified. Click "Send Verification Email" to resend the verification email.');
-                } else {
-                    console.log('User is already verified.');
-                }
-            } catch (error) {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.error(`Error: ${errorMessage} (Code: ${errorCode})`);
-            }
-        });
-
-        // Email verification button event listener
-        document.getElementById('verifyEmailBtn').addEventListener('click', async () => {
-            const user = auth.currentUser; // Get the current user
-            if (user) {
-                try {
-                    await sendEmailVerification(user);
-                    console.log('Verification email sent. Please check your inbox.');
-                } catch (error) {
-                    console.error(`Error sending verification email: ${error.message}`);
-                }
-            } else {
-                console.log('No user is signed in.');
-            }
-        });
-    </script>
+  </script>
 </body>
+
 </html>
