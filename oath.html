@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign-In</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4285F4; /* Google Blue */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #357AE8; /* Darker shade for hover */
+        }
+
+        .btn:active {
+            background-color: #2A5DBD; /* Even darker shade for active */
+        }
+    </style>
+</head>
+<body>
+    <button id="googleSignInBtn" class="btn">Sign in with Google</button>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA8xVT6HX2OWxeJnhyfi0W3ob-Vf6DT7RE",
+  authDomain: "super-computer-online.firebaseapp.com",
+  projectId: "super-computer-online",
+  storageBucket: "super-computer-online.firebasestorage.app",
+  messagingSenderId: "374995479448",
+  appId: "1:374995479448:web:eb00bf8c8c8e645eb459ed",
+  measurementId: "G-XZZT89386C"
+};
+
+        // Initialize Firebase and the Google Auth Provider
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const provider = new GoogleAuthProvider();
+
+        // Sign-in button event listener
+        document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                const user = result.user;
+
+                // Send email verification if the email is not verified
+                if (!user.emailVerified) {
+                    await sendEmailVerification(user);
+                    console.log('Verification email sent. Please check your inbox.');
+                } else {
+                    console.log('User is already verified.');
+                }
+            } catch (error) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.customData?.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.error(`Error: ${errorMessage} (Code: ${errorCode})`);
+            }
+        });
+    </script>
+</body>
+</html>
