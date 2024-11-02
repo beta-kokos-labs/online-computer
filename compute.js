@@ -11,7 +11,7 @@
 */
 //'complete'
 const peer = new Peer();
-if(document.cookie){const peer = new Peer('pbkoko-key-'+document.cookie);}else{const peer = new Peer();}
+if(document.cookie){const peer = new Peer(document.cookie);}else{const peer = new Peer();}
 let conn;
 
 peer.on('open', (id) => {
