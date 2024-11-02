@@ -126,6 +126,7 @@
   <div class="content">
     <h1>Welcome to Your Dashboard</h1>
     <p>Use the sidebar to navigate through different sections.</p>
+    <hr><input readonly id='id'>
   </div>
   <script>
     function toggleSidebar() {
@@ -137,6 +138,7 @@
       var sidebar = document.getElementById('sidebar');
       sidebar.classList.remove('expanded');
     });
+    if(document.cookie){document.getElementById('id').innerText=document.cookie}
   </script>
 </body>
 </html>
