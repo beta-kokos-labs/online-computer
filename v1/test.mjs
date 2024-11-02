@@ -1,4 +1,4 @@
-import pako from 'pako';
+/*import pako from 'pako';
 
 // Sample JavaScript code as a string
 const jsCode = `
@@ -124,7 +124,7 @@ console.log('Compressed Size:', compressedSize, 'bytes');
 console.log('Reduction Percentage:', reductionPercentage.toFixed(2), '%');
 console.log('Compressed Code (Base64):', compressedBase64);
 
-/*
+
 //import { per } from 'peerjs';
 // importPeer.js
 // test.mjs
@@ -158,3 +158,36 @@ Peer.on('open', (id) => {
     console.log('My peer ID is: ' + id);
     document.getElementById('peerId').value = id; // Display peer ID
 });*/
+
+//import * as Peer from 'peerjs';
+//const Peer = require('peerjs')
+import { Peer } from 'peerjs'
+const test = new Peer()
+//const peer = new Peer();
+
+// Wait for the connection to be established
+peer.on('open', (id) => {
+    console.log('My peer ID is: ' + id);
+});
+
+// Receive a call
+peer.on('call', (call) => {
+    call.answer(); // Answer the call
+    call.on('stream', (remoteStream) => {
+        const remoteVideo = document.createElement('video');
+        remoteVideo.srcObject = remoteStream;
+        remoteVideo.play();
+        document.getElementById('remoteVideo').appendChild(remoteVideo);
+    });
+});
+
+// Function to make a call
+function makeCall(peerId) {
+    const call = peer.call(peerId, localStream);
+    call.on('stream', (remoteStream) => {
+        const remoteVideo = document.createElement('video');
+        remoteVideo.srcObject = remoteStream;
+        remoteVideo.play();
+        document.getElementById('remoteVideo').appendChild(remoteVideo);
+    });
+}
