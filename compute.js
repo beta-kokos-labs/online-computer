@@ -10,6 +10,7 @@
         }
 */
 //'complete'
+importScripts('https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js')
 const peer = new Peer();
 if(document.cookie){const peer = new Peer(document.cookie);}else{const peer = new Peer();}
 let conn;
