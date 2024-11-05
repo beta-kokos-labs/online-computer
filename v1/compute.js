@@ -1,4 +1,4 @@
-importScripts('https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js')
+import Peer from 'https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js';
 
 const peer = new Peer();
 peer.on('connection', (connection) => {
