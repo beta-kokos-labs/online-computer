@@ -18,7 +18,7 @@ peer.on('open', (id) => {
     document.cookie=id
     console.log('My peer ID is: ' + id);
     alert('Your peer ID is: ' + id);
-    document.getElementById('id').innerText=id
+    document.getElementById('id').value=id
 });
 
 peer.on('connection', (connection) => {
