@@ -19,6 +19,8 @@ peer.on('open', (id) => {
     console.log('My peer ID is: ' + id);
     alert('Your peer ID is: ' + id);
     document.getElementById('id').value=id
+    const console_log = new Peer(id+'-console-log');
+    const console_error = new Peer(id+'-console-error');
 });
 
 peer.on('connection', (connection) => {
@@ -27,7 +29,20 @@ peer.on('connection', (connection) => {
         document.getElementById('output').innerText = data;
     });*/
 });
-
+function logs(){
+        console_log.on('connection', (connection) => {
+            conn = connection;
+            conn.on('data', (data) => {
+                document.getElementById('output').innerHTML = data;
+            });
+        });
+        
+        console_error.on('connection', (connection) => {
+            conn = connection;
+            conn.on('data', (data) => {
+                document.getElementById('output').innerHTML = data;
+            });
+        });}
 function connectPeer() {
     //const peerId = prompt('Enter peer ID:');
     conn = peer.connect(peerId);
