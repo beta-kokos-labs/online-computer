@@ -33,14 +33,14 @@ function logs(){
         console_log.on('connection', (connection) => {
             conn = connection;
             conn.on('data', (data) => {
-                document.getElementById('output').innerHTML = data;
+                document.getElementById('output').innerHTML = <span class='output'>${data}<span>;
             });
         });
         
         console_error.on('connection', (connection) => {
             conn = connection;
             conn.on('data', (data) => {
-                document.getElementById('output').innerHTML = data;
+                document.getElementById('output').innerHTML = `<span class='error'>${data}<span>`
             });
         });}
 function connectPeer() {
