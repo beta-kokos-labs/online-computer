@@ -83,6 +83,6 @@ const longCode = `
     console.log('End');
 `;
 
-runChunks(longCode, 3); // Change chunk size as needed
+//runChunks(longCode, 3); // Change chunk size as needed
 
 //////////////////////////////////////////////
