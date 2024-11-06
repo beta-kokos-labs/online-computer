@@ -33,7 +33,7 @@ function logs(){
         console_log.on('connection', (connection) => {
             conn = connection;
             conn.on('data', (data) => {
-                document.getElementById('output').innerHTML = <span class='output'>${data}<span>;
+                document.getElementById('output').innerHTML = `<span class='output'>${data}<span>`;
             });
         });
         
