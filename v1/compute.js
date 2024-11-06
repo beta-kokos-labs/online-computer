@@ -12,7 +12,9 @@ peer.on('error', (err) => {
 });
 
 function open(public_code){
-conn = peer.connect('pbkoko-key-'+peerId);
+conn = peer.connect('pbkoko-key-'+public_code);
+error = peer.connect(public_code+'-console-log')
+error = peer.connect(public_code+'-console-error')
 conn.on('open', () => {
 console.log('Connected to peer:', peerId);
 }
@@ -31,3 +33,26 @@ conn.on('data', (data) => {
 });}
 
 //return new Function(`return async () => { ${code} }`)()
+
+        // Custom function to append messages to the terminal
+        // Override console.log
+        console.log = function(message) {
+            appendToTerminal(message, 'log');
+        };
+
+        // Override console.error
+        console.error = function(message) {
+            appendToTerminal(message, 'error');
+        };
+
+        // Optionally, handle uncaught errors (e.g., from try-catch)
+        window.onerror = function(message, source, lineno, colno, error) {
+            //appendToTerminal(`Error: ${message} at ${source}:${lineno}:${colno}`, 'error');
+            return true;  // Prevent default browser handling (optional)
+        };
+
+        // Test logs and errors
+        console.log('Welcome to the custom terminal!');
+        console.log('This is a normal log message.');
+        console.error('Oops, something went wrong!');
+        throw new Error('This is an uncaught error example.');
