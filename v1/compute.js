@@ -17,7 +17,7 @@ error = peer.connect(public_code+'-console-log')
 error = peer.connect(public_code+'-console-error')
 conn.on('open', () => {
 console.log('Connected to peer:', peerId);
-}
+})
 conn.on('data', (data) => {
     const data = data
     let run = new Function(data)
