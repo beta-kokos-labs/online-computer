@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
 </head>
 <body>
-    <div id="editor"></div>
+    <div id="editor"></div><div id='console'></div>
     <script>
         require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
         require(['vs/editor/editor.main'], function() {
