@@ -13,7 +13,7 @@
 <body>
     <div id="editor"></div>
     <script>
-        if(localStorage.getItem('username') === null){localStorage.setItem('code', 'function hello() {\n\tconsole.log("Hello, world!");\n}')}
+        if(localStorage.getItem('code') === null){localStorage.setItem('code', 'function hello() {\n\tconsole.log("Hello, world!");\n}')}
         require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
         require(['vs/editor/editor.main'], function() {
             // Create a basic editor with JavaScript language support
