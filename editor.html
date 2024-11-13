@@ -18,7 +18,7 @@
         require(['vs/editor/editor.main'], function() {
             // Create a basic editor with JavaScript language support
             const editor = monaco.editor.create(document.getElementById('editor'), {
-                value: localStorage.getItem('code')//'function hello() {\n\tconsole.log("Hello, world!");\n}',
+                value: localStorage.getItem('code'),//'function hello() {\n\tconsole.log("Hello, world!");\n}',
                 language: 'javascript'
             });
             document.getElementById('storedName').input = function(e){
