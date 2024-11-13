@@ -10,93 +10,21 @@
     <!-- Load Monaco Editor from CDN -->
     <script src="https://unpkg.com/monaco-editor@latest/min/vs/loader.js"></script>
 </head>
-<body><button id="saveBtn">Save Data</button>
+<body>
     <div id="editor"></div>
     <script>
+        if(localStorage.getItem('username') === null){localStorage.setItem('code', 'function hello() {\n\tconsole.log("Hello, world!");\n}')}
         require.config({ paths: { 'vs': 'https://unpkg.com/monaco-editor@latest/min/vs' }});
         require(['vs/editor/editor.main'], function() {
             // Create a basic editor with JavaScript language support
             const editor = monaco.editor.create(document.getElementById('editor'), {
-                value: 'function hello() {\n\tconsole.log("Hello, world!");\n}',
+                value: localStorage.getItem('code')//'function hello() {\n\tconsole.log("Hello, world!");\n}',
                 language: 'javascript'
             });
-
+            document.getElementById('storedName').input = function(e){
+            localStorage.setItem('code', e);}
             // Add a simple completion item provider
-
-
         });
-        const dbName = "myDatabase";
-let db;
-
-function openDatabase() {
-    const request = indexedDB.open(dbName, 1);
-
-    request.onupgradeneeded = function(event) {
-        db = event.target.result;
-        if (!db.objectStoreNames.contains('myData')) {
-            db.createObjectStore('myData', { keyPath: 'id' });
-        }
-    };
-
-    request.onsuccess = function(event) {
-        db = event.target.result;
-        displayStatus('Database opened successfully');
-    };
-
-    request.onerror = function(event) {
-        displayStatus('Error opening database');
-    };
-}
-
-// Save data to IndexedDB
-function saveData() {
-    const key = 'code';
-    const value = document.getElementById('editor').value;
-
-    if (!key || !value) {
-        displayStatus('Please enter both key and value');
-        return;
-    }
-
-    const transaction = db.transaction(['myData'], 'readwrite');
-    const store = transaction.objectStore('myData');
-    const data = { id: key, value: value };
-
-    const request = store.put(data);  // Use 'put' to add or update the data
-
-    request.onsuccess = function() {
-        displayStatus(`Data with key "${key}" saved successfully`);
-    };
-
-    request.onerror = function() {
-        displayStatus('Error saving data');
-    };
-}
-
-// Display status message
-function displayStatus(message) {
-    //const statusDiv = document.getElementById('status');
-    //statusDiv.innerText = message;
-    console.log(message)
-}
-
-// Add event listener for the Save button
-document.getElementById('saveBtn').addEventListener('click', saveData);
-
-// Initialize database
-openDatabase();
-
-// Add event listener to save data before the page unloads
-window.addEventListener('beforeunload', function(event) {
-    // Trigger the save function before leaving the page
-    saveData();
-
-    // Optionally, you can add a custom message (for browser support)
-    const message = "You have unsaved data. Do you really want to leave?";
-    event.returnValue = message;  // Standard way to display a message
-    return message;               // For some browsers like Chrome
-});
-
     </script>
 </body>
 </html>
