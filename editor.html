@@ -21,7 +21,7 @@
                 value: localStorage.getItem('code'),//'function hello() {\n\tconsole.log("Hello, world!");\n}',
                 language: 'javascript'
             });
-            document.getElementById('editor').input = function(e){
+            document.getElementById('editor').onchange = function(e){
             localStorage.setItem('code', e.value);}
             // Add a simple completion item provider
         });
