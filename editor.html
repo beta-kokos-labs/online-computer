@@ -22,7 +22,7 @@
                 language: 'javascript'
             });
             document.getElementById('editor').onchange = function(e){
-            localStorage.setItem('code', document.getElementById('editor').innerText);}
+            localStorage.setItem('code', document.getElementById('editor').innerHTML);}
             // Add a simple completion item provider
         });
     </script>
